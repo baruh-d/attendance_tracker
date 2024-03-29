@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from lib.models import association_table, Attendance, Teacher, Student, User
+from models import association_table, Attendance, Teacher, Student, User
 from datetime import datetime
 
 # Create an SQLite database engine

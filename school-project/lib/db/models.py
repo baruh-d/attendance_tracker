@@ -16,7 +16,7 @@ association_table = Table('association', Base.metadata,
 class User(Base):
     __tablename__ = 'users'
     
-    id = Column(Integer, primary_key=True)
+    id = Column(String, primary_key=True)
     username = Column(String, unique=True)
     password = Column(String)
     role = Column(Enum('student', 'teacher'))  # 'teacher' or 'student'
@@ -30,7 +30,7 @@ class User(Base):
 class Teacher(User):
     __tablename__ = 'teachers'
 
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    id = Column(String, ForeignKey('users.id'), primary_key=True)
     name = Column(String)
     email = Column(String)
     students = relationship('Student', secondary=association_table, back_populates='teachers')
@@ -43,7 +43,7 @@ class Teacher(User):
 class Student(User):
     __tablename__ = 'students'
 
-    id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    id = Column(String, ForeignKey('users.id'), primary_key=True)
     name = Column(String)
     roll_number = Column(Integer)
     teachers = relationship('Teacher', secondary=association_table, back_populates='students')
@@ -57,8 +57,7 @@ class Attendance(Base):
     __tablename__ = 'attendance'
 
     id = Column(Integer, primary_key=True)
-    person_id = Column(Integer, ForeignKey('users.id'))  # References either student or teacher
-    person_type = Column(Enum('teacher', 'student'))  # Indicates whether the person is a teacher or student
+    user_id = Column(String, ForeignKey('users.id'))  # References either student or teacher
     date = Column(DateTime, default=datetime.now())  # Date of the attendance record
     status = Column(String)  # Attendance status: Present, Absent, Late, etc.
 
